@@ -341,7 +341,7 @@ def getServices(update: Update, context):
 def getReplicaLogs(update: Update, context):
     user = update.effective_user
     logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    msg = getParam('docker logs db_repl_image')
+    msg = getParam('cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15')
     update.message.reply_text(msg)
 
 # Функция для подключения к Linux системе и получаения параметров
