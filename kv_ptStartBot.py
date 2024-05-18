@@ -336,7 +336,7 @@ def get_emails(update: Update, context: CallbackContext):
     db_query_exec(update, context, sql_command)
 
 def get_phone_numbers(update: Update, context: CallbackContext):
-    sql_command = "SELECT * FROM phone_numbers;"
+    sql_command = "SELECT * FROM phonenumbers;"
     db_query_exec(update, context, sql_command)
 
 def echo(update: Update, context: CallbackContext):
