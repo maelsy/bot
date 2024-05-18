@@ -3,7 +3,7 @@ import re
 import os
 import paramiko
 import psycopg2
-import subprocess
+
 
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackContext
@@ -284,15 +284,11 @@ def get_services(update: Update, context: CallbackContext):
     msg, error = get_param('systemctl list-units --type=service | head -n 5')
     update.message.reply_text(msg or error)
 
-def get_replica_logs(update: Update, context: CallbackContext):
+def get_replica_logs(update: Update, context):
     user = update.effective_user
     logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    command = "cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15"
-    res = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    if res.returncode != 0 or res.stderr.decode():
-        update.message.reply_text("Can not open log file!")
-    else:
-        update.message.reply_text(res.stdout.decode().strip('\n'))
+    msg = getParam('cat /var/log/postgresql/postgresql.log | grep repl')
+    update.message.reply_text(msg)
 
 def get_param(command_name, host=os.getenv('RM_HOST'), port=os.getenv('RM_PORT'), username=os.getenv('RM_USER'),
               password=os.getenv('RM_PASSWORD')):
