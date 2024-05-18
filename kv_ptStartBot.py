@@ -287,7 +287,7 @@ def get_services(update: Update, context: CallbackContext):
 def get_replica_logs(update: Update, context):
     user = update.effective_user
     logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    msg = getParam('cat /var/log/postgresql/postgresql.log | grep repl')
+    msg = getParam('cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15')
     update.message.reply_text(msg)
 
 def get_param(command_name, host=os.getenv('RM_HOST'), port=os.getenv('RM_PORT'), username=os.getenv('RM_USER'),
