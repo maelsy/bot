@@ -108,7 +108,7 @@ def save_phone_number(update: Update, context: CallbackContext):
 
     if user_input == 'да':
         phone_number_list = context.user_data.get('phoneNumberList')
-        sql_command = 'INSERT INTO phone_numbers (value) VALUES '
+        sql_command = 'INSERT INTO phonenumbers (phonenumber) VALUES '
         values = [f"('{phone}')" for phone in phone_number_list]
         sql_command += ', '.join(values) + ';'
         db_query_exec(update, context, sql_command, False)
@@ -287,7 +287,7 @@ def get_services(update: Update, context: CallbackContext):
 def get_replica_logs(update: Update, context):
     user = update.effective_user
     logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    msg = getParam('cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15')
+    msg = get_param('cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15')
     update.message.reply_text(msg)
 
 def get_param(command_name, host=os.getenv('RM_HOST'), port=os.getenv('RM_PORT'), username=os.getenv('RM_USER'),
